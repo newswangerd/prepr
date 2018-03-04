@@ -127,17 +127,17 @@ export default class App extends React.Component {
       if(this.state.recipes[i].state){
         delete this.state.recipes[i].state;
         new_recipes.push(this.state.recipes[i]);
-      }
 
-      for(len2 = this.state.recipes[i].ingredients.length, j=0; j<len2; j++){
-        // console.log(this.state.recipes[i].ingredients[j]);
+        for(len2 = this.state.recipes[i].ingredients.length, j=0; j<len2; j++){
+          // console.log(this.state.recipes[i].ingredients[j]);
 
-        result = new_ingredients.findIndex( ingredient => ingredient.key ===  this.state.recipes[i].ingredients[j].key);
-        if (result > -1){
-          console.log(result);
-          new_ingredients[result].amount += this.state.recipes[i].ingredients[j].amount;
-        } else {
-          new_ingredients.push(this.state.recipes[i].ingredients[j]);
+          result = new_ingredients.findIndex( ingredient => ingredient.key ===  this.state.recipes[i].ingredients[j].key);
+          if (result > -1){
+            console.log(result);
+            new_ingredients[result].amount += this.state.recipes[i].ingredients[j].amount;
+          } else {
+            new_ingredients.push(this.state.recipes[i].ingredients[j]);
+          }
         }
       }
     }
