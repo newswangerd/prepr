@@ -26,34 +26,14 @@ class HomeScreen extends React.Component {
   }
 }
 
-class RecipesScreen extends React.Component {
-  render() {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Home!</Text>
-      </View>
-    );
-  }
-}
-
-class ShopListScreen extends React.Component {
-  render() {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Home!</Text>
-      </View>
-    );
-  }
-}
-
 export default TabNavigator({
   Recipes: {
-    screen: RecipesScreen
+    screen: MasterView
 
   },
 
   Home: { screen: HomeScreen },
-  Shop: {screen: ShopListScreen}
+  Shop: {screen: ShopView}
 },
 {
   tabBarPosition: 'bottom',
