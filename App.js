@@ -5,6 +5,7 @@ import { Platform } from 'react-native'
 
 import ShopView from './components/ShopView'
 import MasterView from './components/MasterView'
+import HomeView from './components/HomeView'
 
 const tabBarOptions = Platform.OS === 'ios' ?
   {
@@ -16,23 +17,9 @@ const tabBarOptions = Platform.OS === 'ios' ?
     showLabel: true
   }
 
-class HomeScreen extends React.Component {
-  render() {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Home!</Text>
-      </View>
-    );
-  }
-}
-
 export default TabNavigator({
-  Recipes: {
-    screen: MasterView
-
-  },
-
-  Home: { screen: HomeScreen },
+  Recipes: {screen: MasterView},
+  Home: { screen: HomeView },
   Shop: {screen: ShopView}
 },
 {
