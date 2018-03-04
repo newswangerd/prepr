@@ -84,19 +84,21 @@ class DetailsScreen extends React.Component {
     const recipe = params ? params.recipe : null;
 
     return (
-      // <Text style={styles.header}>Shopping</Text>
+      <View style={styles.container}>
+      <Text style={styles.header}>{recipe.key}</Text>
       <FlatList
+        keyExtractor={(item, index) => index}
         data={recipe.steps}
         renderItem={({item, index}) =>
           <View>
             <View style={styles.listItemCont}>
               <Text style={styles.item}>{item}</Text>
-              // <Button title="X" onPress={() => this.deleteTask(index)} />
             </View>
             <View style={styles.hr} />
           </View>
         }
       />
+      </View>
 
     );
   }
