@@ -6,8 +6,8 @@ import MasterView from './components/MasterView'
 export default class App extends React.Component {
   render() {
     return (
-      // <ShopView />
-      <MasterView />
+      <ShopView />
+      // <MasterView />
     )
   }
 }

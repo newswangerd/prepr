@@ -1,82 +1,70 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { Button, StyleSheet, Text, View, FlatList } from 'react-native';
 
 export default class App extends React.Component {
+  deleteTask = i => {
+    this.setState(
+      prevState => {
+        let shopping = prevState.shopping.slice();
 
+        shopping.splice(i, 1);
+
+        return { shopping: shopping };
+      }
+    );
+  };
+
+  state = {
+    shopping: [
+      {key: "ingredient 1", amount: 2, units:"cup"},
+      {key: "ingredient 2", amount: 2, units:"tsp"},
+      {key: "ingredient 3", amount: 1, units:"tbsp"},
+      {key: "ingredient 4", amount: 1, units:"unit"},
+    ],
+  };
 
   render() {
-    recipes = [
-      {
-        name: "Recipe 1",
-        description: "what is the recipe good for?",
-        meals: 6,
-        steps: [
-          "step 1",
-          "step 2",
-          "step 3",
-        ],
 
-        ingredients: [
-          {name: "ingredient 1", amount: 1, units:"cup"},
-          {name: "ingredient 2", amount: 1, units:"tsp"},
-          {name: "ingredient 3", amount: 1, units:"tbsp"},
-          {name: "ingredient 4", amount: 1, units:"unit"},
-        ],
-      },
-      {
-        name: "Recipe 2",
-        description: "what is the recipe good for?",
-        meals: 6,
-        steps: [
-          "step 1",
-          "step 2",
-        ],
-
-        ingredients: [
-          {name: "ingredient 1", amount: 1, units:"cup"},
-          {name: "ingredient 2", amount: 1, units:"tsp"},
-
-        ]
-      }
-    ];
-
-    shopping = [
-      {name: "ingredient 1", amount: 2, units:"cup"},
-      {name: "ingredient 2", amount: 2, units:"tsp"},
-      {name: "ingredient 3", amount: 1, units:"tbsp"},
-      {name: "ingredient 4", amount: 1, units:"unit"},
-    ];
-
-    prepping = [
-      {
-        name: "Recipe1",
-        steps: [
-          "step 1",
-          "step 2",
-          "step 3",
-        ],
-      },
-      {
-        name: "Recipe2",
-        steps: [
-          "step 1",
-          "step 2",
-        ],
-      }
-    ];
 
     return (
       <View style={styles.container}>
       <Text style={styles.header}>Shopping</Text>
       <FlatList
-      data={shopping}
-      renderItem={({item}) => <Text style={styles.item}>{item.name}: {item.amount} {item.units}</Text>}
+      data={this.state.shopping}
+      renderItem={({item, index}) =>
+      <View>
+        <View style={styles.listItemCont}>
+          <Text style={styles.item}>{item.key}: {item.amount} {item.units}</Text>
+          <Button title="X" onPress={() => this.deleteTask(index)} />
+        </View>
+        <View style={styles.hr} />
+      </View>
+      }
       />
 
       </View>
     );
   }
 }
+
+// let Tasks = {
+//   convertToArrayOfObject(tasks, callback) {
+//     return callback(
+//       tasks ? tasks.split("||").map((task, i) => ({ key: i, text: task })) : []
+//     );
+//   },
+//   convertToStringWithSeparators(tasks) {
+//     return tasks.map(task => task.text).join("||");
+//   },
+//   all(callback) {
+//     return AsyncStorage.getItem("TASKS", (err, tasks) =>
+//       this.convertToArrayOfObject(tasks, callback)
+//     );
+//   },
+//   save(tasks) {
+//     AsyncStorage.setItem("TASKS", this.convertToStringWithSeparators(tasks));
+//   }
+// };
 
 const styles = StyleSheet.create({
   header: {
@@ -94,5 +82,10 @@ const styles = StyleSheet.create({
 
   item: {
     padding: 10,
-  }
+  },
+  listItemCont: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between"
+  },
 });
