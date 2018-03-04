@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, StyleSheet, Text, View, FlatList } from 'react-native';
+import { AsyncStorage, Button, StyleSheet, Text, View, FlatList } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 
@@ -8,25 +8,27 @@ export default class App extends React.Component {
     this.setState(
       prevState => {
         let shopping = prevState.shopping.slice();
-
         shopping.splice(i, 1);
+        AsyncStorage.setItem('SHOPPING', JSON.stringify(shopping), () => {});
 
         return { shopping: shopping };
       }
     );
   };
 
-  state = {
-    shopping: [
-      {key: "ingredient 1", amount: 2, units:"cup"},
-      {key: "ingredient 2", amount: 2, units:"tsp"},
-      {key: "ingredient 3", amount: 1, units:"tbsp"},
-      {key: "ingredient 4", amount: 1, units:"unit"},
-    ],
-  };
+  constructor(props) {
+    super(props);
+    this.state = { };
+    AsyncStorage.getItem('SHOPPING', (err, result) => {
+      this.state.shopping = JSON.parse(result);
+      this.forceUpdate();
+    });
+  }
+
+
 
   render() {
-
+    // AsyncStorage.setItem('SHOPPING', JSON.stringify(this.state.shopping), () => {});
 
     return (
       <View style={styles.container}>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, FlatList, Button, View, Text } from 'react-native';
+import { AsyncStorage, StyleSheet, FlatList, Button, View, Text } from 'react-native';
 import { StackNavigator } from 'react-navigation'; // Version can be specified in package.json
 
 class HomeScreen extends React.Component {
@@ -8,7 +8,7 @@ class HomeScreen extends React.Component {
   };
 
 
-  state = {
+  old = {
       recipes:[
         {
           visible: false,
@@ -47,7 +47,19 @@ class HomeScreen extends React.Component {
       ],
     };
 
+  constructor(props) {
+    super(props);
+    this.state = { };
+    AsyncStorage.getItem('PREPLIST', (err, result) => {
+      this.state.recipes = JSON.parse(result);
+      // console.log(result);
+      this.forceUpdate();
+    });
+  }
+
   render() {
+    // AsyncStorage.setItem('PREPLIST', JSON.stringify(this.old.recipes), () => {});
+    console.log(this.state.recipes);
     return (
       <View>
         <FlatList
