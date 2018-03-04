@@ -50,9 +50,12 @@ class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = { };
+    this.loadData();
+  }
+
+  loadData(){
     AsyncStorage.getItem('PREPLIST', (err, result) => {
       this.state.recipes = JSON.parse(result);
-      // console.log(result);
       this.forceUpdate();
     });
   }
@@ -62,6 +65,12 @@ class HomeScreen extends React.Component {
     // console.log(this.state.recipes);
     return (
       <View>
+      <Button
+        title="Reload"
+        onPress={() => {
+          this.loadData();
+        }}
+      />
         <FlatList
         data={this.state.recipes}
           renderItem={({item, index}) =>

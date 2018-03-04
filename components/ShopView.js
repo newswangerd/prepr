@@ -4,6 +4,15 @@ import { StackNavigator } from 'react-navigation';
 
 
 export default class App extends React.Component {
+
+  shopFocusSubscription = this.props.navigation.addListener(
+    'didFocus',
+    payload => {
+      console.log('loaded');
+      this.loadData();
+    }
+  );
+
   deleteTask = i => {
     this.setState(
       prevState => {
@@ -16,13 +25,17 @@ export default class App extends React.Component {
     );
   };
 
-  constructor(props) {
-    super(props);
-    this.state = { };
+  loadData() {
     AsyncStorage.getItem('SHOPPING', (err, result) => {
       this.state.shopping = JSON.parse(result);
       this.forceUpdate();
     });
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = { };
+    this.loadData();
   }
 
 

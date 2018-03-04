@@ -17,6 +17,14 @@ const viewPadding = 10;
 
 
 export default class App extends React.Component {
+
+  masterSubscription = this.props.navigation.addListener(
+    'didFocus',
+    payload => {
+      console.log('loaded');
+      this.loadData();
+    }
+  );
   old = {
       recipes:[
         {
@@ -89,17 +97,22 @@ export default class App extends React.Component {
       ],
     };
 
+  loadData(){
+    this.state.recipes = this.old.recipes;
+    // AsyncStorage.getItem('RECIPES', (err, result) => {
+    //   this.state.recipes = JSON.parse(result);
+    //   this.forceUpdate();
+    // });
+    // this.forceUpdate();
+  }
+
   constructor(props) {
     super(props);
     this.state = {
       mealcount: 0,
       price: 0,
     };
-    this.state.recipes = this.old.recipes;
-    // AsyncStorage.getItem('RECIPES', (err, result) => {
-    //   this.state.recipes = JSON.parse(result);
-    //   this.forceUpdate();
-    // });
+    this.loadData();
   }
 
   changeState = i => {
