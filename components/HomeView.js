@@ -119,6 +119,20 @@ class DetailsScreen extends React.Component {
           </View>
         }
       />
+
+      <Text style={styles.header}>Ingredients</Text>
+      <FlatList
+        keyExtractor={(item, index) => index}
+        data={recipe.ingredients}
+        renderItem={({item, index}) =>
+          <View>
+            <View style={styles.listItemCont}>
+              <Text style={styles.item}>{item.key}: {item.amount} {item.units}</Text>
+            </View>
+            <View style={styles.hr} />
+          </View>
+        }
+      />
       </View>
 
     );
