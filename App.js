@@ -20,7 +20,7 @@ const tabBarOptions = Platform.OS === 'ios' ?
 export default TabNavigator({
   Recipes: {screen: MasterView},
   Home: { screen: HomeView },
-  Shop: {screen: ShopView}
+  Shop: {screen: ShopView},
 },
 {
   tabBarPosition: 'bottom',

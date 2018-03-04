@@ -59,7 +59,7 @@ class HomeScreen extends React.Component {
 
   render() {
     // AsyncStorage.setItem('PREPLIST', JSON.stringify(this.old.recipes), () => {});
-    console.log(this.state.recipes);
+    // console.log(this.state.recipes);
     return (
       <View>
         <FlatList
