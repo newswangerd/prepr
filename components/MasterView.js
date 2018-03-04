@@ -21,7 +21,6 @@ export default class App extends React.Component {
   masterSubscription = this.props.navigation.addListener(
     'didFocus',
     payload => {
-      console.log('loaded');
       this.loadData();
     }
   );
@@ -99,6 +98,8 @@ export default class App extends React.Component {
 
   loadData(){
     this.state.recipes = this.old.recipes;
+    // this.forceUpdate();
+
     // AsyncStorage.getItem('RECIPES', (err, result) => {
     //   this.state.recipes = JSON.parse(result);
     //   this.forceUpdate();
@@ -133,33 +134,46 @@ export default class App extends React.Component {
     );
   };
 
-  addRecipes () {
-    var new_recipes = [];
-    var new_ingredients = [];
-    for (len = this.state.recipes.length, i=0; i<len; ++i) {
-      if(this.state.recipes[i].state){
-        delete this.state.recipes[i].state;
-        new_recipes.push(this.state.recipes[i]);
 
-        for(len2 = this.state.recipes[i].ingredients.length, j=0; j<len2; j++){
-          // console.log(this.state.recipes[i].ingredients[j]);
+  addRecipes = k => {
+    this.setState(
+      prevState => {
+        let new_state = prevState.recipes;
 
-          result = new_ingredients.findIndex( ingredient => ingredient.key ===  this.state.recipes[i].ingredients[j].key);
-          if (result > -1){
-            console.log(result);
-            new_ingredients[result].amount += this.state.recipes[i].ingredients[j].amount;
-          } else {
-            new_ingredients.push(this.state.recipes[i].ingredients[j]);
+        var new_recipes = [];
+        var new_ingredients = [];
+        for (len = new_state.length, i=0; i<len; ++i) {
+          if(new_state[i].state){
+            // delete new_state[i].state;
+            new_recipes.push(new_state[i]);
+
+            for(len2 = new_state[i].ingredients.length, j=0; j<len2; j++){
+              // console.log(new_state[i].ingredients[j]);
+
+              result = new_ingredients.findIndex( ingredient => ingredient.key ===  new_state[i].ingredients[j].key);
+              if (result > -1){
+                // console.log(result);
+                new_ingredients[result].amount += new_state[i].ingredients[j].amount;
+              } else {
+                new_ingredients.push(new_state[i].ingredients[j]);
+              }
+            }
           }
         }
-      }
-    }
-    // console.log(new_recipes);
-    // console.log(new_ingredients);
-    AsyncStorage.setItem('PREPLIST', JSON.stringify(new_recipes), () => {});
-    AsyncStorage.setItem('SHOPPING', JSON.stringify(new_ingredients), () => {});
+        // console.log(new_recipes);
+        // console.log(new_ingredients);
+        AsyncStorage.setItem('PREPLIST', JSON.stringify(new_recipes), () => {});
+        AsyncStorage.setItem('SHOPPING', JSON.stringify(new_ingredients), () => {});
 
-    alert("New recipes added");
+        alert("New recipes added");
+
+        return { recipes: new_state };
+      }
+    );
+  };
+
+  addRecipes () {
+
   };
 
   render() {
@@ -181,9 +195,10 @@ export default class App extends React.Component {
                 {item.key}
               </Text>
               <Button
-              title={item.state ? "+":"-"}
-              color = {item.state ? "#27d800":"#ff0000"}
-              onPress={() => this.changeState(index)} />
+                title={item.state ? "+":"-"}
+                color = {item.state ? "#27d800":"#ff0000"}
+                onPress={() => this.changeState(index)}
+              />
             </View>
             <View style={styles.hr} />
           </View>}
@@ -213,8 +228,8 @@ const styles = StyleSheet.create({
   },
   listElement: {
     justifyContent: 'center',
-    // paddingTop: 5,
-    // paddingBottom: 5,
+    paddingTop: 10,
+    paddingBottom: 10,
     fontSize: 18
   },
   header:{
